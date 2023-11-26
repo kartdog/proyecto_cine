@@ -4,6 +4,7 @@ package vista;
 import controlador.DirectorDAO;
 import controlador.PeliculaDAO;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,7 @@ import modelo.Suspenso;
 
 /**
  *
- * @author Felipe
+ * @author Felipe & betza
  */
 public class FormularioPelicula extends javax.swing.JFrame {
 
@@ -31,6 +32,12 @@ List<Director> lista_director = new ArrayList();
         initComponents();
         cargarComboDirector();
         cargarTabla();
+        txtTitulo.requestFocus();
+        rbAccion.setSelected(true);
+        txtCantMuertes.setEnabled(false);
+        txtCantGritos.setEnabled(false);
+        txtPresupuesto.setEnabled(false);
+        txtCantReparto.setEnabled(false);
     }
 
     public void cargarTabla(){
@@ -39,12 +46,11 @@ List<Director> lista_director = new ArrayList();
             DefaultTableModel modelo = new DefaultTableModel();
             modelo.addColumn("ID PELICULA");
             modelo.addColumn("ID DIRECTOR");
+            modelo.addColumn("TIPO PELICULA");
             modelo.addColumn("TÍTULO");
             modelo.addColumn("FECHA DE LANZAMIENTO");
             modelo.addColumn("DURACIÓN");
             modelo.addColumn("RATING");
-            modelo.addColumn("CANT. EXPLOSION");
-            modelo.addColumn("TIENE CGI");
             
             //2. llamamos al dao:
             PeliculaDAO dao = new PeliculaDAO();
@@ -52,8 +58,8 @@ List<Director> lista_director = new ArrayList();
             
             //3. cargamos la información del ResultSet en el modelo:
             while ( rs.next() ) {                
-                Object[] fila = new Object[8];
-                for (int i = 0; i < 8; i++) {
+                Object[] fila = new Object[7];
+                for (int i = 0; i < 7; i++) {
                     fila[i] = rs.getObject(i+1);
                 }
                 modelo.addRow(fila);
@@ -75,14 +81,12 @@ List<Director> lista_director = new ArrayList();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        btnGroup = new javax.swing.ButtonGroup();
         lblDirector = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblPelicula = new javax.swing.JLabel();
         btnAgregarDirector = new javax.swing.JButton();
         cboDirector = new javax.swing.JComboBox<>();
-        lblCodigo = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
         lblTitulo = new javax.swing.JLabel();
         txtTitulo = new javax.swing.JTextField();
         lblFechaLanzamiento = new javax.swing.JLabel();
@@ -114,10 +118,11 @@ List<Director> lista_director = new ArrayList();
         btnAgregarPelicula = new javax.swing.JButton();
         btnEliminarPelicula = new javax.swing.JButton();
         btnModificarPelicula = new javax.swing.JButton();
-        btnBuscarPelicula = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPelicula = new javax.swing.JTable();
         btnBuscarLista = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemax - Pelicula");
@@ -126,9 +131,10 @@ List<Director> lista_director = new ArrayList();
         lblDirector.setForeground(new java.awt.Color(102, 102, 102));
         lblDirector.setText("Director");
 
-        lblPelicula.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPelicula.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblPelicula.setText("PELICULA");
 
+        btnAgregarDirector.setBackground(new java.awt.Color(204, 204, 255));
         btnAgregarDirector.setText("+");
         btnAgregarDirector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,34 +144,59 @@ List<Director> lista_director = new ArrayList();
 
         cboDirector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblCodigo.setForeground(new java.awt.Color(102, 102, 102));
-        lblCodigo.setText("Codigo");
-
         lblTitulo.setForeground(new java.awt.Color(102, 102, 102));
         lblTitulo.setText("Título");
 
+        txtTitulo.setBackground(new java.awt.Color(204, 204, 255));
+
         lblFechaLanzamiento.setForeground(new java.awt.Color(102, 102, 102));
-        lblFechaLanzamiento.setText("Fecha de lanzamiento");
+        lblFechaLanzamiento.setText("Fecha de lanzamiento (dd/mm/aaaa)");
+
+        txtFechaLanzamiento.setBackground(new java.awt.Color(204, 204, 255));
 
         lblDuracion.setForeground(new java.awt.Color(102, 102, 102));
-        lblDuracion.setText("Duración");
+        lblDuracion.setText("Duración (min)");
+
+        txtDuracion.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel1.setText("Rating");
+        jLabel1.setText("Rating (1-10)");
 
+        txtRating.setBackground(new java.awt.Color(204, 204, 255));
+
+        btnGroup.add(rbAccion);
         rbAccion.setForeground(new java.awt.Color(102, 102, 102));
         rbAccion.setText("Accion");
+        rbAccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbAccionActionPerformed(evt);
+            }
+        });
 
+        btnGroup.add(rbSuspenso);
         rbSuspenso.setForeground(new java.awt.Color(102, 102, 102));
         rbSuspenso.setText("Suspenso");
+        rbSuspenso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbSuspensoActionPerformed(evt);
+            }
+        });
 
+        btnGroup.add(rbIndependiete);
         rbIndependiete.setForeground(new java.awt.Color(102, 102, 102));
         rbIndependiete.setText("Independiente");
+        rbIndependiete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbIndependieteActionPerformed(evt);
+            }
+        });
 
         lblTipo.setText("Tipo de pelicula");
         lblTipo.setToolTipText("");
 
         lblAccion.setText("Accion");
+
+        txtCantExplosion.setBackground(new java.awt.Color(204, 204, 255));
 
         lblCantExplosion.setForeground(new java.awt.Color(102, 102, 102));
         lblCantExplosion.setText("Cantidad de explosion");
@@ -178,34 +209,47 @@ List<Director> lista_director = new ArrayList();
         lblCantMuertes.setForeground(new java.awt.Color(102, 102, 102));
         lblCantMuertes.setText("Cantidad de muertes");
 
+        txtCantMuertes.setBackground(new java.awt.Color(204, 204, 255));
+
         lblCantGritos.setForeground(new java.awt.Color(102, 102, 102));
         lblCantGritos.setText("Cantidad de gritos");
+
+        txtCantGritos.setBackground(new java.awt.Color(204, 204, 255));
 
         lblIndependiente.setText("Independiente");
 
         lblPresupuesto.setForeground(new java.awt.Color(102, 102, 102));
         lblPresupuesto.setText("Presupuesto");
 
+        txtPresupuesto.setBackground(new java.awt.Color(204, 204, 255));
+
         lblCantReparto.setForeground(new java.awt.Color(102, 102, 102));
         lblCantReparto.setText("Cantidad de reparto");
+
+        txtCantReparto.setBackground(new java.awt.Color(204, 204, 255));
 
         lblAgregarDirector.setForeground(new java.awt.Color(102, 102, 102));
         lblAgregarDirector.setText("Agregar director");
 
+        btnAgregarPelicula.setBackground(new java.awt.Color(204, 204, 255));
         btnAgregarPelicula.setText("AGREGAR");
+        btnAgregarPelicula.setPreferredSize(new java.awt.Dimension(93, 23));
         btnAgregarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarPeliculaActionPerformed(evt);
             }
         });
 
+        btnEliminarPelicula.setBackground(new java.awt.Color(204, 204, 255));
         btnEliminarPelicula.setText("ELIMINAR");
+        btnEliminarPelicula.setPreferredSize(new java.awt.Dimension(93, 23));
         btnEliminarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarPeliculaActionPerformed(evt);
             }
         });
 
+        btnModificarPelicula.setBackground(new java.awt.Color(204, 204, 255));
         btnModificarPelicula.setText("MODIFICAR");
         btnModificarPelicula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,13 +257,7 @@ List<Director> lista_director = new ArrayList();
             }
         });
 
-        btnBuscarPelicula.setText("BUSCAR");
-        btnBuscarPelicula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarPeliculaActionPerformed(evt);
-            }
-        });
-
+        tblPelicula.setBackground(new java.awt.Color(153, 153, 255));
         tblPelicula.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -233,10 +271,28 @@ List<Director> lista_director = new ArrayList();
         ));
         jScrollPane1.setViewportView(tblPelicula);
 
-        btnBuscarLista.setText("BUSCAR POR LISTA");
+        btnBuscarLista.setBackground(new java.awt.Color(204, 204, 255));
+        btnBuscarLista.setText("BUSCAR");
+        btnBuscarLista.setPreferredSize(new java.awt.Dimension(93, 23));
         btnBuscarLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarListaActionPerformed(evt);
+            }
+        });
+
+        btnSalir.setBackground(new java.awt.Color(204, 204, 255));
+        btnSalir.setText("SALIR");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
+        btnLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
             }
         });
 
@@ -244,96 +300,90 @@ List<Director> lista_director = new ArrayList();
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnBuscarLista)
-                .addGap(200, 200, 200))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(517, 517, 517)
+                        .addComponent(lblPelicula))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblCodigo)
-                                            .addComponent(lblTitulo)
-                                            .addComponent(txtTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                                            .addComponent(txtCodigo)
-                                            .addComponent(jLabel1)
-                                            .addComponent(txtRating))
-                                        .addGap(40, 40, 40)
+                                        .addGap(28, 28, 28)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblDuracion)
-                                            .addComponent(lblFechaLanzamiento)
-                                            .addComponent(txtFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(cboDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(lblDirector))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(lblAgregarDirector)
-                                                    .addComponent(btnAgregarDirector)))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(lblAccion)
-                                                .addGap(136, 136, 136)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(lblSuspenso)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(6, 6, 6)
-                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                            .addComponent(lblCantMuertes)
-                                                            .addComponent(lblCantGritos)
-                                                            .addComponent(txtCantMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addComponent(txtCantGritos, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(btnEliminarPelicula)
-                                                .addGap(73, 73, 73)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(87, 87, 87)
-                                                .addComponent(lblIndependiente))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(93, 93, 93)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(lblPresupuesto)
-                                                    .addComponent(lblCantReparto)
-                                                    .addComponent(txtCantReparto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnModificarPelicula)
-                                                .addGap(53, 53, 53)
-                                                .addComponent(btnBuscarPelicula))))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
-                                                .addComponent(rbAccion)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(rbSuspenso)
-                                                .addGap(76, 76, 76)
-                                                .addComponent(rbIndependiete))
                                             .addComponent(lblCantExplosion)
                                             .addComponent(lblCGI)
                                             .addComponent(cbxCGI)
-                                            .addComponent(txtCantExplosion, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(lblTipo)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnAgregarPelicula)
-                                        .addGap(433, 433, 433)))
+                                            .addComponent(txtCantExplosion, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(lblTitulo)
+                                                                .addComponent(txtTitulo)
+                                                                .addComponent(jLabel1)
+                                                                .addComponent(txtRating, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                            .addComponent(cboDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(lblDirector))
+                                                        .addGap(40, 40, 40)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(lblAgregarDirector)
+                                                            .addComponent(btnAgregarDirector)
+                                                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(lblFechaLanzamiento)
+                                                            .addComponent(lblDuracion)
+                                                            .addComponent(txtFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(lblAccion)
+                                                        .addGap(136, 136, 136)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(lblSuspenso)
+                                                            .addGroup(layout.createSequentialGroup()
+                                                                .addGap(6, 6, 6)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                    .addComponent(lblCantMuertes)
+                                                                    .addComponent(lblCantGritos)
+                                                                    .addComponent(txtCantMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                    .addComponent(txtCantGritos, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addGap(93, 93, 93)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addComponent(lblPresupuesto)
+                                                            .addComponent(lblCantReparto)
+                                                            .addComponent(txtCantReparto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(374, 374, 374)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(lblTipo)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(6, 6, 6)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addComponent(rbSuspenso)
+                                                            .addComponent(rbAccion)
+                                                            .addComponent(rbIndependiete)))
+                                                    .addComponent(lblIndependiente))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1020, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAgregarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addComponent(btnEliminarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(58, 58, 58)
+                                .addComponent(btnModificarPelicula)
+                                .addGap(63, 63, 63)
+                                .addComponent(btnBuscarLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimpiar)
                                 .addGap(39, 39, 39)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(517, 517, 517)
-                        .addComponent(lblPelicula)))
+                                .addComponent(btnSalir)))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -341,80 +391,85 @@ List<Director> lista_director = new ArrayList();
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(lblPelicula)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblCodigo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lblTitulo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(82, 82, 82))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblDuracion)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(lblTitulo)
+                                            .addComponent(lblFechaLanzamiento))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(lblDirector)
                                     .addComponent(lblAgregarDirector))
-                                .addComponent(jLabel1))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnAgregarDirector)
-                                .addComponent(cboDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtRating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(18, 18, 18)
-                            .addComponent(lblTipo)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(rbAccion)
-                                .addComponent(rbSuspenso)
-                                .addComponent(rbIndependiete))
-                            .addGap(12, 12, 12)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblAccion)
-                                .addComponent(lblSuspenso)
-                                .addComponent(lblIndependiente))
-                            .addGap(1, 1, 1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblCantExplosion)
-                                .addComponent(lblCantMuertes)
-                                .addComponent(lblPresupuesto))
-                            .addGap(1, 1, 1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtCantExplosion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtCantMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblCGI)
-                                .addComponent(lblCantGritos)
-                                .addComponent(lblCantReparto))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cbxCGI)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtCantGritos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCantReparto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(lblFechaLanzamiento)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtFechaLanzamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(lblDuracion)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscarLista)
-                    .addComponent(btnBuscarPelicula)
-                    .addComponent(btnModificarPelicula)
-                    .addComponent(btnEliminarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregarPelicula))
-                .addGap(23, 23, 23))
+                                    .addComponent(btnAgregarDirector)
+                                    .addComponent(cboDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblTipo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbAccion)
+                                .addGap(28, 28, 28)
+                                .addComponent(rbSuspenso)
+                                .addGap(34, 34, 34)
+                                .addComponent(rbIndependiete)))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblAccion)
+                            .addComponent(lblSuspenso)
+                            .addComponent(lblIndependiente))
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCantExplosion)
+                            .addComponent(lblCantMuertes)
+                            .addComponent(lblPresupuesto))
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtCantExplosion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCantMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPresupuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCGI)
+                            .addComponent(lblCantGritos)
+                            .addComponent(lblCantReparto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbxCGI)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtCantGritos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCantReparto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBuscarLista, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModificarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarPelicula, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17))))
         );
 
         pack();
@@ -443,142 +498,242 @@ List<Director> lista_director = new ArrayList();
     private void btnAgregarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPeliculaActionPerformed
         // TODO add your handling code here:
         try {
-        
-        if (rbAccion.isSelected()) {
-        String txt_id = txtCodigo.getText();
-        int id = Integer.parseInt(txt_id);
-        
-        int index_id_dir = cboDirector.getSelectedIndex();
-        int id_dir = lista_director.get(index_id_dir-1).getId_director();
-        
-        String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
-        String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
-        
-        Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
-        String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
-     
-        Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
-       
-        
-        String titulo = txtTitulo.getText();
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha_txt = txtFechaLanzamiento.getText();
-        Date fecha_date = sdf.parse(fecha_txt);       
-        
-        String txt_duracion = txtDuracion.getText();
-        int duracion = Integer.parseInt(txt_duracion);
-        String txt_rating = txtRating.getText();
-        int rating = Integer.parseInt(txt_rating);
-        String txt_cantExplosion = txtCantExplosion.getText();
-        int cant_explosion = Integer.parseInt(txt_cantExplosion);
-        
-        boolean CGI = cbxCGI.isSelected();
-        Accion a = new Accion(cant_explosion, CGI, id, d, titulo, fecha_date, duracion, rating);
-            try {
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.agregarPelicula(a);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA DE ACCIÓN AGREGADA!");
-                    cargarTabla();
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA DE ACCIÓN NO AGREGADA!");
+            if (rbAccion.isSelected()) {
+
+            int index_id_dir = cboDirector.getSelectedIndex();
+            int id_dir = lista_director.get(index_id_dir-1).getId_director();
+
+            String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
+            String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
+
+            Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
+            String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
+
+            Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
+
+
+            String titulo = txtTitulo.getText();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+            String fecha_txt = txtFechaLanzamiento.getText();
+            
+            Date fecha_date = null;
+            
+                try {
+                    fecha_date = sdf.parse(fecha_txt);
+                } catch (ParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
                 }
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
+            
+            
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
+            
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
             }
+            
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+            
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }
+            
+            int cant_explosion = 0;
+            String txt_cantExplosion = txtCantExplosion.getText();
+            
+            if (txt_cantExplosion.matches("[0-9]+")) {
+                cant_explosion = Integer.parseInt(txt_cantExplosion);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de explosiones solo puede contener numeros!");
+            }
+            
+
+            boolean CGI = cbxCGI.isSelected();
+            
+            if (fecha_date != null) {
+                Accion a = new Accion(cant_explosion, CGI, d, titulo, fecha_date, duracion, rating);
+                try {
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.agregarPelicula(a);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA DE ACCIÓN AGREGADA!");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA DE ACCIÓN NO AGREGADA!");
+                    }
+                } catch (Exception e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }
+            }  
         }else if(rbSuspenso.isSelected()){
-        String txt_id = txtCodigo.getText();
-        int id = Integer.parseInt(txt_id);
-        
-        int index_id_dir = cboDirector.getSelectedIndex();
-        int id_dir = lista_director.get(index_id_dir-1).getId_director();
-        
-        String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
-        String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
-        
-        Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
-        String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
-     
-        Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
-       
-        
-        String titulo = txtTitulo.getText();
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha_txt = txtFechaLanzamiento.getText();
-        Date fecha_date = sdf.parse(fecha_txt);       
-        
-        String txt_duracion = txtDuracion.getText();
-        int duracion = Integer.parseInt(txt_duracion);
-        String txt_rating = txtRating.getText();
-        int rating = Integer.parseInt(txt_rating);
-        
-        String txt_cantMuerte = txtCantMuertes.getText();
-        int cant_muerte = Integer.parseInt(txt_cantMuerte);
-        String txt_cantGrito = txtCantGritos.getText();
-        int cant_grito = Integer.parseInt(txt_cantGrito);
-        
-        
-        Suspenso s = new Suspenso(cant_muerte, cant_grito, id, d, titulo, fecha_date, duracion, rating);
-            try {
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.agregarPelicula(s);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO AGREGADA!");
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO NO AGREGADA!");
+            int index_id_dir = cboDirector.getSelectedIndex();
+            int id_dir = lista_director.get(index_id_dir-1).getId_director();
+
+            String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
+            String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
+
+            Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
+            String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
+
+            Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
+
+
+            String titulo = txtTitulo.getText();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+            String fecha_txt = txtFechaLanzamiento.getText();
+            Date fecha_date = null;
+            
+                try {
+                    fecha_date = sdf.parse(fecha_txt);       
+                } catch (ParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
                 }
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
-            }           
+                
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
+            
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
+            }
+            
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+            
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }
+            
+            int cant_muerte = 0;
+            String txt_cantMuerte = txtCantMuertes.getText();
+            
+            if (txt_cantMuerte.matches("[0-9]+")) {
+                cant_muerte = Integer.parseInt(txt_cantMuerte);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de muertes solo puede contener numeros!");
+            }
+            
+            int cant_grito = 0;
+            String txt_cantGrito = txtCantGritos.getText();
+            
+            if (txt_cantGrito.matches("[0-9]+")) {
+                cant_grito = Integer.parseInt(txt_cantGrito);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de gritos solo puede contener numeros!");
+            }
+            
+            
+            if (fecha_date != null) {
+                Suspenso s = new Suspenso(cant_muerte, cant_grito, d, titulo, fecha_date, duracion, rating);
+                try {
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.agregarPelicula(s);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO AGREGADA!");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO NO AGREGADA!");
+                    }
+                } catch (Exception e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }          
+            }        
         }else if(rbIndependiete.isSelected()){
-        String txt_id = txtCodigo.getText();
-        int id = Integer.parseInt(txt_id);
-        
-        int index_id_dir = cboDirector.getSelectedIndex();
-        int id_dir = lista_director.get(index_id_dir-1).getId_director();
-        
-        String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
-        String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
-        
-        Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
-        String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
-     
-        Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
-       
-        
-        String titulo = txtTitulo.getText();
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha_txt = txtFechaLanzamiento.getText();
-        Date fecha_date = sdf.parse(fecha_txt);       
-        
-        String txt_duracion = txtDuracion.getText();
-        int duracion = Integer.parseInt(txt_duracion);
-        String txt_rating = txtRating.getText();
-        int rating = Integer.parseInt(txt_rating);
-        
-        String txt_Presupuesto = txtPresupuesto.getText();
-        int presupuesto = Integer.parseInt(txt_Presupuesto);
-        String txt_cantReparto = txtCantReparto.getText();
-        int cant_reparto = Integer.parseInt(txt_cantReparto);
-        
-        
-        Independiente i = new Independiente(presupuesto, cant_reparto, id, d, titulo, fecha_date, duracion, rating);
+            int index_id_dir = cboDirector.getSelectedIndex();
+            int id_dir = lista_director.get(index_id_dir-1).getId_director();
+
+            String nombre_dir = lista_director.get(index_id_dir-1).getPnombre();
+            String appaterno_dir = lista_director.get(index_id_dir-1).getAppaterno();
+
+            Date fecha_dir = lista_director.get(index_id_dir-1).getFecha_nacimiento();
+            String nacionalidad_dir = lista_director.get(index_id_dir-1).getNacionalidad();
+
+            Director d = new Director(id_dir, nombre_dir, appaterno_dir, fecha_dir, nacionalidad_dir);
+
+
+            String titulo = txtTitulo.getText();
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
+            String fecha_txt = txtFechaLanzamiento.getText();
+
+            Date fecha_date = null;
+
             try {
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.agregarPelicula(i);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE AGREGADA!");
-                    cargarTabla();
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE NO AGREGADA!");
-                }
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
-            }            
-        }             
+                fecha_date = sdf.parse(fecha_txt);                 
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
+            }
+
+
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
+
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
+            }
+
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }                                                       
+
+            int presupuesto = 0;
+            String txt_Presupuesto = txtPresupuesto.getText();
+            
+            if (txt_Presupuesto.matches("[0-9]+")) {
+                presupuesto = Integer.parseInt(txt_Presupuesto);
+            }else{
+                JOptionPane.showMessageDialog(null, "Presupuesto solo puede contener numeros!");               
+            }
+            
+            int cant_reparto = 0;
+            String txt_cantReparto = txtCantReparto.getText();
+            
+            if (txt_cantReparto.matches("[0-9]+")) {
+                cant_reparto = Integer.parseInt(txt_cantReparto);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Reparto solo puede contener numeros!"); 
+            }
+            
+        
+            if (fecha_date != null) {
+                Independiente i = new Independiente(presupuesto, cant_reparto, d, titulo, fecha_date, duracion, rating);
+                try {
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.agregarPelicula(i);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE AGREGADA!");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE NO AGREGADA!");
+                    }
+                } catch (Exception e) {
+                    System.out.println("ERROR: " + e.getMessage());
+                }            
+            }       
+            }             
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
         }
@@ -587,13 +742,22 @@ List<Director> lista_director = new ArrayList();
     private void btnEliminarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPeliculaActionPerformed
         // TODO add your handling code here:
         try {
-            String txt_id = txtCodigo.getText();
+            int row = tblPelicula.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA PELICULA PARA ELIMINAR");
+                return;
+            }
+            String txt_id = tblPelicula.getValueAt(row, 0).toString();      
             int id = Integer.parseInt(txt_id);
             
+            String txt_tipo = tblPelicula.getValueAt(row, 2).toString();
+            
             PeliculaDAO dao = new PeliculaDAO();
-            boolean resp = dao.eliminarPelicula(id);
+            boolean resp = dao.eliminarPelicula(id, txt_tipo);
             if (resp) {
                 JOptionPane.showMessageDialog(null, "PELICULA ELIMINADA");
+                limpiar();
+                cargarTabla();
             }else{
                 JOptionPane.showMessageDialog(null, "PELICULA NO ELIMINADA");
             }
@@ -606,9 +770,16 @@ List<Director> lista_director = new ArrayList();
         // TODO add your handling code here:
         try {
             if (rbAccion.isSelected()) {
-                String txt_id = txtCodigo.getText();
-                int id = Integer.parseInt(txt_id);
 
+            int row = tblPelicula.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE BUSCAR UNA PELICULA ANTES DE MODIFICARLA.");
+                return;
+            }
+            
+            String codigo = tblPelicula.getValueAt(row, 0).toString();
+            int int_codigo = Integer.parseInt(codigo);
+                    
                 int index_id_dir = cboDirector.getSelectedIndex();
                 int id_dir = lista_director.get(index_id_dir-1).getId_director();
 
@@ -623,32 +794,70 @@ List<Director> lista_director = new ArrayList();
                 String titulo = txtTitulo.getText();
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                sdf.setLenient(false);
                 String fecha_txt = txtFechaLanzamiento.getText();
-                Date fecha_sql = sdf.parse(fecha_txt);
-
-                String txt_duracion = txtDuracion.getText();
-                int duracion = Integer.parseInt(txt_duracion);
-
-                String txt_rating = txtRating.getText();
-                int rating = Integer.parseInt(txt_rating);
                 
-                String txt_cantExplosion = txtCantExplosion.getText();
-                int cant_explosion = Integer.parseInt(txt_cantExplosion);
+                Date fecha_sql = null;
+                
+                try {
+                    fecha_sql = sdf.parse(fecha_txt);    
+                } catch (ParseException e) {
+                    JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
+                }
+                
+
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
+            
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
+            }
+            
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+            
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }
+            
+            int cant_explosion = 0;
+            String txt_cantExplosion = txtCantExplosion.getText();
+            
+            if (txt_cantExplosion.matches("[0-9]+")) {
+                cant_explosion = Integer.parseInt(txt_cantExplosion);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de explosiones solo puede contener numeros!");
+            }
                 
                 boolean CGI = cbxCGI.isSelected();
-                Accion a = new Accion(cant_explosion, CGI, id, d, titulo, fecha_sql, duracion, rating);
+                if (fecha_sql != null) {
+                    Accion a = new Accion(cant_explosion, CGI, int_codigo, d, titulo, fecha_sql, duracion, rating);
                 
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.modificarPelicula(a);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA DE ACCION MODIFICADA");
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA DE ACCION NO MODIFICADA");
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.modificarPelicula(a);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA DE ACCION MODIFICADA");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA DE ACCION NO MODIFICADA");
+                    }   
                 }
             }else if(rbSuspenso.isSelected()){
-                String txt_id = txtCodigo.getText();
-                int id = Integer.parseInt(txt_id);
-
+                
+            int row = tblPelicula.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA ANTES DE MODIFICARLA.");
+                return;
+            }
+            
+            String codigo = tblPelicula.getValueAt(row, 0).toString();
+            int int_codigo = Integer.parseInt(codigo);
+                
                 int index_id_dir = cboDirector.getSelectedIndex();
                 int id_dir = lista_director.get(index_id_dir-1).getId_director();
 
@@ -663,33 +872,78 @@ List<Director> lista_director = new ArrayList();
                 String titulo = txtTitulo.getText();
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                sdf.setLenient(false);
                 String fecha_txt = txtFechaLanzamiento.getText();
-                Date fecha_sql = sdf.parse(fecha_txt);
+                
+                Date fecha_sql = null;
+                
+                try {
+                    fecha_sql = sdf.parse(fecha_txt);                    
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
+                }
+                
 
-                String txt_duracion = txtDuracion.getText();
-                int duracion = Integer.parseInt(txt_duracion);
-
-                String txt_rating = txtRating.getText();
-                int rating = Integer.parseInt(txt_rating);
-                
-                String txt_cantMuerte = txtCantMuertes.getText();
-                int cant_muerte = Integer.parseInt(txt_cantMuerte);
-                
-                String txt_cantGrito = txtCantGritos.getText();
-                int cant_grito = Integer.parseInt(txt_cantGrito);
-                Suspenso s = new Suspenso(cant_muerte, cant_grito, id, d, titulo, fecha_sql, duracion, rating);
-                
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.modificarPelicula(s);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO MODIFICADA");
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO NO MODIFICADA");
-                }                
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
+            
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
             }else{
-                String txt_id = txtCodigo.getText();
-                int id = Integer.parseInt(txt_id);
-
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
+            }
+            
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+            
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }
+            
+            int cant_muerte = 0;
+            String txt_cantMuerte = txtCantMuertes.getText();
+            
+            if (txt_cantMuerte.matches("[0-9]+")) {
+                cant_muerte = Integer.parseInt(txt_cantMuerte);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de muertes solo puede contener numeros!");
+            }
+            
+            int cant_grito = 0;
+            String txt_cantGrito = txtCantGritos.getText();
+            
+            if (txt_cantGrito.matches("[0-9]+")) {
+                cant_grito = Integer.parseInt(txt_cantGrito);
+            }else{
+                JOptionPane.showMessageDialog(null, "Cantidad de gritos solo puede contener numeros!");
+            }
+                
+                if (fecha_sql != null) {
+                    Suspenso s = new Suspenso(cant_muerte, cant_grito, int_codigo, d, titulo, fecha_sql, duracion, rating);
+                
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.modificarPelicula(s);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO MODIFICADA");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA DE SUSPENSO NO MODIFICADA");
+                    }     
+                }              
+            }else{
+                
+            int row = tblPelicula.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA ANTES DE MODIFICARLA.");
+                return;
+            }
+            
+            String codigo = tblPelicula.getValueAt(row, 0).toString();
+            int int_codigo = Integer.parseInt(codigo);
+                
                 int index_id_dir = cboDirector.getSelectedIndex();
                 int id_dir = lista_director.get(index_id_dir-1).getId_director();
 
@@ -704,77 +958,299 @@ List<Director> lista_director = new ArrayList();
                 String titulo = txtTitulo.getText();
 
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                sdf.setLenient(false);
                 String fecha_txt = txtFechaLanzamiento.getText();
-                Date fecha_sql = sdf.parse(fecha_txt);
+                
+                Date fecha_sql = null;
+                
+                try {
+                    fecha_sql = sdf.parse(fecha_txt);                   
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
+                }
+                
 
-                String txt_duracion = txtDuracion.getText();
-                int duracion = Integer.parseInt(txt_duracion);
+            int duracion = 0;   
+            String txt_duracion = txtDuracion.getText();
 
-                String txt_rating = txtRating.getText();
-                int rating = Integer.parseInt(txt_rating);
+            if (txt_duracion.matches("[0-9]+")) {
+                duracion = Integer.parseInt(txt_duracion);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Duracion solo puede contener numeros!");
+            }
+
+            int rating = 0;
+            String txt_rating = txtRating.getText();
+
+            if (txt_rating.matches("[0-9]+")) {
+                rating = Integer.parseInt(txt_rating);    
+            }else{
+                JOptionPane.showMessageDialog(null, "Rating solo puede contener numeros!");
+            }                                                       
+
+            int presupuesto = 0;
+            String txt_Presupuesto = txtPresupuesto.getText();
+            
+            if (txt_Presupuesto.matches("[0-9]+")) {
+                presupuesto = Integer.parseInt(txt_Presupuesto);
+            }else{
+                JOptionPane.showMessageDialog(null, "Presupuesto solo puede contener numeros!");               
+            }
+            
+            int cant_reparto = 0;
+            String txt_cantReparto = txtCantReparto.getText();
+            
+            if (txt_cantReparto.matches("[0-9]+")) {
+                cant_reparto = Integer.parseInt(txt_cantReparto);               
+            }else{
+                JOptionPane.showMessageDialog(null, "Reparto solo puede contener numeros!"); 
+            }
                 
-                String txt_presupuesto = txtPresupuesto.getText();
-                int presupuesto = Integer.parseInt(txt_presupuesto);
+                if (fecha_sql != null) {
+                    Independiente i = new Independiente(presupuesto, cant_reparto, int_codigo, d, titulo, fecha_sql, duracion, rating);
                 
-                String txt_cantReparto = txtCantReparto.getText();
-                int reparto = Integer.parseInt(txt_cantReparto);
-                Independiente i = new Independiente(presupuesto, reparto, id, d, titulo, fecha_sql, duracion, rating);
-                
-                PeliculaDAO dao = new PeliculaDAO();
-                boolean resp = dao.modificarPelicula(i);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE MODIFICADA");
-                }else{
-                    JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE NO MODIFICADA");
-                }               
+                    PeliculaDAO dao = new PeliculaDAO();
+                    boolean resp = dao.modificarPelicula(i);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE MODIFICADA");
+                        limpiar();
+                        cargarTabla();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "PELICULA INDEPENDIENTE NO MODIFICADA");
+                    }     
+                }             
             }
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
         }
     }//GEN-LAST:event_btnModificarPeliculaActionPerformed
 
-    private void btnBuscarPeliculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPeliculaActionPerformed
-        // TODO add your handling code here:
-        
-        try {
-            
-            String txt_codigo = txtCodigo.getText();
-            int codigo = Integer.parseInt(txt_codigo);
-            
-            PeliculaDAO dao = new PeliculaDAO();
-            // Accion a = dao.buscarPelicula(codigo);
-            
-            
-            txtCodigo.setText(txt_codigo);
-            txtDuracion.setText(txtDuracion.getText());
-           
-            
-        } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
-        }
-        
-    }//GEN-LAST:event_btnBuscarPeliculaActionPerformed
-
     private void btnBuscarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarListaActionPerformed
         // TODO add your handling code here:
         try {
             int row = tblPelicula.getSelectedRow();
             if (row == -1) {
-                JOptionPane.showMessageDialog(null, "NO HA SELECCIONADO FILA, ELIJA UNA.");
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA PARA BUSCAR.");
                 return;
             }
             
             String codigo = tblPelicula.getValueAt(row, 0).toString();
+            String tipo = tblPelicula.getValueAt(row, 2).toString();
             int int_codigo = Integer.parseInt(codigo);
-            PeliculaDAO dao = new PeliculaDAO();
-            Accion a = (Accion) dao.buscarPelicula(int_codigo);
-            txtTitulo.setText(a.getTitulo());
             
+            PeliculaDAO dao = new PeliculaDAO();
+            
+            if (tipo.equals("ACCION")) {
+                Accion a = (Accion) dao.buscarPelicula(int_codigo, tipo);
+                
+                limpiar();
+                rbAccion.setSelected(true);
+                txtCantExplosion.setEnabled(true);
+                cbxCGI.setEnabled(true);
+                txtCantMuertes.setEnabled(false);
+                txtCantGritos.setEnabled(false);
+                txtCantReparto.setEnabled(false);
+                txtPresupuesto.setEnabled(false);
+                
+                txtTitulo.setText(a.getTitulo());
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String fecha_txt = sdf.format(a.getFecha_lanzamiento());     
+                txtFechaLanzamiento.setText(fecha_txt);
+                
+                String rating = String.valueOf(a.getRating());
+                txtRating.setText(rating);               
+                
+                String duracion = String.valueOf(a.getDuracion());
+                txtDuracion.setText(duracion);
+                
+                for (Director director : lista_director) {
+                    if (director.getId_director() == a.getDirector().getId_director()) {
+                        cboDirector.setSelectedItem(director.getPnombre());
+                        break;
+                    }
+                }
+                
+                String cant_exp = String.valueOf(a.getCant_explosion());
+                txtCantExplosion.setText(cant_exp);
+                
+                if (a.isTiene_cgi()) {
+                    cbxCGI.setSelected(true);
+                }else{
+                    cbxCGI.setSelected(false);
+                }
+            }else if(tipo.equals("SUSPENSO")){
+                
+                Suspenso s = (Suspenso) dao.buscarPelicula(int_codigo, tipo);
+                    
+                limpiar();
+                rbSuspenso.setSelected(true);
+                txtCantMuertes.setEnabled(true);
+                txtCantGritos.setEnabled(true);
+                txtCantExplosion.setEnabled(false);
+                cbxCGI.setEnabled(false);
+                txtCantReparto.setEnabled(false);
+                txtPresupuesto.setEnabled(false);
+
+                txtTitulo.setText(s.getTitulo());
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String fecha_txt = sdf.format(s.getFecha_lanzamiento());     
+                txtFechaLanzamiento.setText(fecha_txt);
+
+                String rating = String.valueOf(s.getRating());
+                txtRating.setText(rating);               
+
+                String duracion = String.valueOf(s.getDuracion());
+                txtDuracion.setText(duracion);
+
+                for (Director director : lista_director) {
+                    if (director.getId_director() == s.getDirector().getId_director()) {
+                        cboDirector.setSelectedItem(director.getPnombre());
+                        break;
+                    }
+                }
+                    
+                String txt_cantM = String.valueOf(s.getCant_muerte());
+                txtCantMuertes.setText(txt_cantM);
+                    
+                String txt_cantG = String.valueOf(s.getCant_grito());
+                txtCantGritos.setText(txt_cantG);                
+            }else{
+                Independiente i = (Independiente) dao.buscarPelicula(int_codigo, tipo);
+                
+                limpiar();
+                rbIndependiete.setSelected(true);
+                txtCantMuertes.setEnabled(false);
+                txtCantGritos.setEnabled(false);
+                txtCantExplosion.setEnabled(false);
+                cbxCGI.setEnabled(false);
+                txtCantReparto.setEnabled(true);
+                txtPresupuesto.setEnabled(true);
+
+                txtTitulo.setText(i.getTitulo());
+
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                String fecha_txt = sdf.format(i.getFecha_lanzamiento());     
+                txtFechaLanzamiento.setText(fecha_txt);
+
+                String rating = String.valueOf(i.getRating());
+                txtRating.setText(rating);               
+
+                String duracion = String.valueOf(i.getDuracion());
+                txtDuracion.setText(duracion);
+
+                for (Director director : lista_director) {
+                    if (director.getId_director() == i.getDirector().getId_director()) {
+                        cboDirector.setSelectedItem(director.getPnombre());
+                        break;
+                    }
+                }
+                
+                String presupuesto = String.valueOf(i.getPresupuesto());
+                txtPresupuesto.setText(presupuesto);
+                
+                String cant_reparto = String.valueOf(i.getCant_reparto());
+                txtCantReparto.setText(cant_reparto);
+                
+            }
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR: C " + e.getMessage());
         }
     }//GEN-LAST:event_btnBuscarListaActionPerformed
 
+    private void rbAccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbAccionActionPerformed
+        // TODO add your handling code here:
+        txtCantExplosion.setEnabled(true);
+        cbxCGI.setEnabled(true);
+        txtCantMuertes.setEnabled(false);
+        txtCantMuertes.setText("");
+        txtCantGritos.setEnabled(false);
+        txtCantGritos.setText("");
+        txtPresupuesto.setEnabled(false);
+        txtPresupuesto.setText("");
+        txtCantReparto.setEnabled(false);
+        txtCantReparto.setText("");
+    }//GEN-LAST:event_rbAccionActionPerformed
+
+    private void rbSuspensoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSuspensoActionPerformed
+        // TODO add your handling code here:
+        txtCantExplosion.setEnabled(false);
+        txtCantExplosion.setText("");
+        cbxCGI.setEnabled(false);
+        cbxCGI.setSelected(false);
+        txtCantMuertes.setEnabled(true);
+        txtCantGritos.setEnabled(true);
+        txtPresupuesto.setEnabled(false);
+        txtPresupuesto.setText("");
+        txtCantReparto.setEnabled(false);
+        txtCantReparto.setText("");
+    }//GEN-LAST:event_rbSuspensoActionPerformed
+
+    private void rbIndependieteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbIndependieteActionPerformed
+        // TODO add your handling code here:
+        txtCantExplosion.setEnabled(false);
+        txtCantExplosion.setText("");
+        cbxCGI.setEnabled(false);
+        cbxCGI.setSelected(false);
+        txtCantMuertes.setEnabled(false);
+        txtCantMuertes.setText("");
+        txtCantGritos.setEnabled(false);
+        txtCantGritos.setText("");
+        txtPresupuesto.setEnabled(true);
+        txtCantReparto.setEnabled(true);
+    }//GEN-LAST:event_rbIndependieteActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtTitulo.setText("");
+        txtFechaLanzamiento.setText("");
+        txtDuracion.setText("");
+        txtRating.setText("");
+        txtCantExplosion.setText("");
+        cbxCGI.setSelected(false);
+        txtCantGritos.setText("");
+        txtCantMuertes.setText("");
+        txtPresupuesto.setText("");
+        txtCantReparto.setText("");
+        cboDirector.setSelectedIndex(0);
+        rbAccion.setSelected(true);
+        txtTitulo.requestFocus();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    public void limpiar(){
+        txtTitulo.setText("");
+        txtFechaLanzamiento.setText("");
+        txtDuracion.setText("");
+        txtRating.setText("");
+        txtCantExplosion.setText("");
+        cbxCGI.setSelected(false);
+        txtCantGritos.setText("");
+        txtCantMuertes.setText("");
+        txtPresupuesto.setText("");
+        txtCantReparto.setText("");
+        cboDirector.setSelectedIndex(0);
+        rbAccion.setSelected(true);
+        txtTitulo.requestFocus();
+    }
+    
+    public String obtenerTipo(){
+        String txt = "";
+        try {
+            int row = tblPelicula.getSelectedRow();
+            txt = tblPelicula.getValueAt(row, 2).toString();    
+        } catch (Exception e) {
+            System.out.println("ERROR: " + e.getMessage());
+        }
+        return txt;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -814,10 +1290,11 @@ List<Director> lista_director = new ArrayList();
     private javax.swing.JButton btnAgregarDirector;
     private javax.swing.JButton btnAgregarPelicula;
     private javax.swing.JButton btnBuscarLista;
-    private javax.swing.JButton btnBuscarPelicula;
     private javax.swing.JButton btnEliminarPelicula;
+    private javax.swing.ButtonGroup btnGroup;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificarPelicula;
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cboDirector;
     private javax.swing.JCheckBox cbxCGI;
     private javax.swing.JLabel jLabel1;
@@ -830,7 +1307,6 @@ List<Director> lista_director = new ArrayList();
     private javax.swing.JLabel lblCantGritos;
     private javax.swing.JLabel lblCantMuertes;
     private javax.swing.JLabel lblCantReparto;
-    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblDirector;
     private javax.swing.JLabel lblDuracion;
     private javax.swing.JLabel lblFechaLanzamiento;
@@ -848,7 +1324,6 @@ List<Director> lista_director = new ArrayList();
     private javax.swing.JTextField txtCantGritos;
     private javax.swing.JTextField txtCantMuertes;
     private javax.swing.JTextField txtCantReparto;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDuracion;
     private javax.swing.JTextField txtFechaLanzamiento;
     private javax.swing.JTextField txtPresupuesto;

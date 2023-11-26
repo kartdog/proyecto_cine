@@ -2,10 +2,11 @@
 package modelo;
 
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Felipe
+ * @author betza
  */
 public class Accion extends Pelicula{
     
@@ -15,29 +16,36 @@ public class Accion extends Pelicula{
     public Accion() {
     }
 
-    public Accion(int cant_explosion, boolean tiene_cgi) {
-        this.cant_explosion = cant_explosion;
-        this.tiene_cgi = tiene_cgi;
+    public Accion(int cant_explosion, boolean tiene_cgi) throws Exception {
+        setCant_explosion(cant_explosion);
+        setTiene_cgi(tiene_cgi);
+        
     }
 
-    public Accion(int cant_explosion, boolean tiene_cgi, int id_pelicula, Director director, String titulo, Date fecha_lanzamiento, int duracion, int rating) {
+    public Accion(int cant_explosion, boolean tiene_cgi, int id_pelicula, Director director, String titulo, Date fecha_lanzamiento, int duracion, int rating) throws Exception {
         super(id_pelicula, director, titulo, fecha_lanzamiento, duracion, rating);
-        this.cant_explosion = cant_explosion;
-        this.tiene_cgi = tiene_cgi;
+        setCant_explosion(cant_explosion);
+        setTiene_cgi(tiene_cgi);
     }
 
-    public Accion(int cant_explosion, boolean tiene_cgi, Director director, String titulo, Date fecha_lanzamiento, int duracion, int rating) {
+    public Accion(int cant_explosion, boolean tiene_cgi, Director director, String titulo, Date fecha_lanzamiento, int duracion, int rating) throws Exception {
         super(director, titulo, fecha_lanzamiento, duracion, rating);
-        this.cant_explosion = cant_explosion;
-        this.tiene_cgi = tiene_cgi;
+        setCant_explosion(cant_explosion);
+        setTiene_cgi(tiene_cgi);
     }
 
     public int getCant_explosion() {
         return cant_explosion;
     }
 
-    public void setCant_explosion(int cant_explosion) {
-        this.cant_explosion = cant_explosion;
+    public void setCant_explosion(int cant_explosion) throws Exception {
+        if (cant_explosion >= 0) {
+                    this.cant_explosion = cant_explosion;
+
+        }else{
+            JOptionPane.showMessageDialog(null, "La cantidad de explosiones no puede ser menor que 0!");
+            throw new Exception("La cantidad de explosiones no puede ser menor que 0!");
+        }
     }
 
     public boolean isTiene_cgi() {

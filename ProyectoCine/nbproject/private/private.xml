@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>src/vista/FormularioDirector.java</url>
+            <bookmark id="1">
+                <name/>
+                <line>304</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/code/java/ProyectoCine/src/modelo/Accion.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/modelo/Director.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/controlador/DirectorDAO.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/vista/FormularioDirector.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/modelo/Pelicula.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/vista/FormularioPelicula.java</file>
-            <file>file:/D:/code/java/ProyectoCine/src/controlador/PeliculaDAO.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/conexion/ConexionOracle.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/modelo/Independiente.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/controlador/DirectorDAO.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/modelo/Pelicula.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/vista/FormularioPelicula.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/modelo/Accion.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/img/fondo.jpg</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/controlador/PeliculaDAO.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/modelo/Suspenso.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/modelo/Director.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/vista/FormularioDirector.java</file>
+            <file>file:/D:/code/java/done/CINEMAX_FECHA/ProyectoCine/src/vista/Iniciar.java</file>
         </group>
     </open-files>
 </project-private>

@@ -17,7 +17,7 @@ import modelo.Director;
 
 /**
  *
- * @author Felipe
+  * @author Felipe & betza
  */
 public class FormularioDirector extends javax.swing.JFrame {
 
@@ -75,19 +75,21 @@ public class FormularioDirector extends javax.swing.JFrame {
         txtNacionalidad = new javax.swing.JTextField();
         btnAgregarDirector = new javax.swing.JButton();
         btnEliminarDirector = new javax.swing.JButton();
-        lblCodigo = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
         btnModificarDirector = new javax.swing.JButton();
         btnBuscarDirector = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDirector = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        lblVolver = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cinemax - Director");
+        setResizable(false);
 
-        lblDirector.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblDirector.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblDirector.setText("DIRECTOR");
 
+        btnAtras.setBackground(new java.awt.Color(255, 204, 204));
         btnAtras.setText("<");
         btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,14 +97,27 @@ public class FormularioDirector extends javax.swing.JFrame {
             }
         });
 
+        lblNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNombre.setText("Nombre");
 
+        txtNombre.setBackground(new java.awt.Color(255, 204, 204));
+
+        lblApellido.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblApellido.setText("Apellido");
 
+        txtApellido.setBackground(new java.awt.Color(255, 204, 204));
+
+        lblFechaNacimiento.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblFechaNacimiento.setText("Fecha de nacimiento");
 
+        txtFechaNacimiento.setBackground(new java.awt.Color(255, 204, 204));
+
+        lblNacionalidad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNacionalidad.setText("Nacionalidad");
 
+        txtNacionalidad.setBackground(new java.awt.Color(255, 204, 204));
+
+        btnAgregarDirector.setBackground(new java.awt.Color(255, 204, 204));
         btnAgregarDirector.setText("AGREGAR");
         btnAgregarDirector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,6 +125,7 @@ public class FormularioDirector extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarDirector.setBackground(new java.awt.Color(255, 204, 204));
         btnEliminarDirector.setText("ELIMINAR");
         btnEliminarDirector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -117,8 +133,7 @@ public class FormularioDirector extends javax.swing.JFrame {
             }
         });
 
-        lblCodigo.setText("Codigo");
-
+        btnModificarDirector.setBackground(new java.awt.Color(255, 204, 204));
         btnModificarDirector.setText("MODIFICAR");
         btnModificarDirector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +141,7 @@ public class FormularioDirector extends javax.swing.JFrame {
             }
         });
 
+        btnBuscarDirector.setBackground(new java.awt.Color(255, 204, 204));
         btnBuscarDirector.setText("BUSCAR");
         btnBuscarDirector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +149,7 @@ public class FormularioDirector extends javax.swing.JFrame {
             }
         });
 
+        tblDirector.setBackground(new java.awt.Color(255, 204, 204));
         tblDirector.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -146,49 +163,53 @@ public class FormularioDirector extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblDirector);
 
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setText("(dd/mm/aaaa)");
+
+        lblVolver.setText("Volver a pelicula");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAtras)
-                                .addGap(215, 215, 215)
-                                .addComponent(lblDirector))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNacionalidad)
-                                    .addComponent(lblFechaNacimiento)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblNombre)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                                            .addComponent(lblCodigo)
-                                            .addComponent(txtCodigo))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblApellido)
-                                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtNacionalidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
-                                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnAtras)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblVolver)
+                        .addGap(149, 149, 149)
+                        .addComponent(lblDirector)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(btnAgregarDirector)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnEliminarDirector)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnModificarDirector)
-                        .addGap(31, 31, 31)
-                        .addComponent(btnBuscarDirector)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNombre)
+                            .addComponent(lblApellido)
+                            .addComponent(lblFechaNacimiento)
+                            .addComponent(lblNacionalidad)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                .addComponent(txtNacionalidad, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                                .addComponent(txtApellido, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSeparator1))
+                .addGap(19, 19, 19))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(btnAgregarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnModificarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,39 +217,39 @@ public class FormularioDirector extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDirector)
-                    .addComponent(btnAtras))
+                    .addComponent(btnAtras)
+                    .addComponent(lblVolver))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCodigo)
+                        .addGap(52, 52, 52)
+                        .addComponent(lblNombre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(lblApellido)
                         .addGap(7, 7, 7)
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblNombre)
-                            .addComponent(lblApellido))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
                         .addComponent(lblFechaNacimiento)
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(40, 40, 40)
                         .addComponent(lblNacionalidad)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNacionalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregarDirector)
-                    .addComponent(btnEliminarDirector)
-                    .addComponent(btnModificarDirector)
-                    .addComponent(btnBuscarDirector))
-                .addGap(95, 95, 95))
+                    .addComponent(btnBuscarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificarDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(64, 64, 64))
         );
 
         pack();
@@ -244,29 +265,38 @@ public class FormularioDirector extends javax.swing.JFrame {
     private void btnAgregarDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarDirectorActionPerformed
         try {                                                   
             // TODO add your handling code here:
-            String txt_id = txtCodigo.getText();
             String nombre = txtNombre.getText();
             String apellido = txtApellido.getText();
             
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false);
             String fecha_txt = txtFechaNacimiento.getText();
-            Date fecha_date = sdf.parse(fecha_txt);
+            
+            Date fecha_date = null;
+            
+            try {
+                fecha_date = sdf.parse(fecha_txt);
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "La fecha debe estar en el formato dd/mm/yyyy!");
+            }
             
             String nacionalidad = txtNacionalidad.getText();
             
-            int id = Integer.parseInt(txt_id);
-            
-            Director d = new Director(id, nombre, apellido, fecha_date, nacionalidad);
-            try {
-                DirectorDAO dao = new DirectorDAO();
-                boolean resp = dao.agregarDirector(d);
-                if (resp) {
-                    JOptionPane.showMessageDialog(null,"Director AGREGADO!");
-                }else{
-                    JOptionPane.showMessageDialog(null, "Director NO AGREGADO!");
+            if (fecha_date != null) {
+                Director d = new Director(nombre, apellido, fecha_date, nacionalidad);
+                try {
+                    DirectorDAO dao = new DirectorDAO();
+                    boolean resp = dao.agregarDirector(d);
+                    if (resp) {
+                        JOptionPane.showMessageDialog(null,"Director AGREGADO!");
+                        cargarTabla();
+                        limpiar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Director NO AGREGADO!");
+                    }
+                } catch (Exception e) {
+                    System.out.println("ERROR: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                System.out.println("ERROR: " + e.getMessage());
             }
         } catch (ParseException ex) {
             Logger.getLogger(FormularioDirector.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,12 +308,19 @@ public class FormularioDirector extends javax.swing.JFrame {
     private void btnEliminarDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDirectorActionPerformed
         // TODO add your handling code here:
         try {
-            String id_dir = txtCodigo.getText();
-            int dir = Integer.parseInt(id_dir);
+            int row = tblDirector.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA DE LA TABLA!");
+                return;
+            }
+            String txt_dir = tblDirector.getValueAt(row, 0).toString();
+            int dir = Integer.parseInt(txt_dir);
             DirectorDAO dao = new DirectorDAO();
             boolean resp = dao.eliminarDirector(dir);
             if (resp) {
                 JOptionPane.showMessageDialog(null, "DIRECTOR ELIMINADO");
+                    cargarTabla();
+                    limpiar();                
             }else{
                 JOptionPane.showMessageDialog(null, "DIRECTOR NO ELIMINADO!");
             }
@@ -295,9 +332,15 @@ public class FormularioDirector extends javax.swing.JFrame {
     private void btnModificarDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarDirectorActionPerformed
         // TODO add your handling code here:
         try {
-            String dir = txtCodigo.getText();
-            int id_dir = Integer.parseInt(dir);
+            int row = tblDirector.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE BUSCAR UN DIRECTOR ANTES DE MODIFICAR!");
+                return;
+            }
             
+            String codigo = tblDirector.getValueAt(row, 0).toString();
+            int int_codigo = Integer.parseInt(codigo); 
+           
             String nombre = txtNombre.getText();
             String apellido = txtApellido.getText();
             
@@ -307,12 +350,14 @@ public class FormularioDirector extends javax.swing.JFrame {
             
             String nacionalidad = txtNacionalidad.getText();
             
-            Director d = new Director(id_dir, nombre, apellido, fecha_sql, nacionalidad);
+            Director d = new Director(int_codigo, nombre, apellido, fecha_sql, nacionalidad);
             
             DirectorDAO dao = new DirectorDAO();
             boolean resp = dao.modificarDirector(d);
             if (resp) {
                 JOptionPane.showMessageDialog(null, "DIRECTOR MODIFICADO!");
+                    cargarTabla();
+                    limpiar();               
             }else{
                 JOptionPane.showMessageDialog(null, "DIRECTOR NO MODIFICADO!");
             }
@@ -322,30 +367,38 @@ public class FormularioDirector extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarDirectorActionPerformed
 
     private void btnBuscarDirectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDirectorActionPerformed
-        // TODO add your handling code here:
         try {
-            
-            String dir = txtCodigo.getText();
-            int id_dir = Integer.parseInt(dir);
+            int row = tblDirector.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA FILA DE LA TABLA!");
+                return;
+            }
+            String codigo = tblDirector.getValueAt(row, 0).toString();
+            int int_codigo = Integer.parseInt(codigo);
             
             DirectorDAO dao = new DirectorDAO();
-            Director d = dao.buscarDirector(id_dir);
-            
+            Director d = dao.buscarDirector(int_codigo);
             txtNombre.setText(d.getPnombre());
             txtApellido.setText(d.getAppaterno());
             
-            Date fecha_sql = d.getFecha_nacimiento();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha_txt = sdf.format(fecha_sql);
-            txtFechaNacimiento.setText(fecha_txt);
+            String fecha_txt = sdf.format(d.getFecha_nacimiento());
             
+            txtFechaNacimiento.setText(fecha_txt);
             txtNacionalidad.setText(d.getNacionalidad());
             
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR: b " + e.getMessage());
         }
-        
     }//GEN-LAST:event_btnBuscarDirectorActionPerformed
+
+    public void limpiar(){
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtFechaNacimiento.setText("");
+        txtNacionalidad.setText("");
+        txtNombre.requestFocus();
+    }
 
     /**
      * @param args the command line arguments
@@ -388,17 +441,17 @@ public class FormularioDirector extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarDirector;
     private javax.swing.JButton btnEliminarDirector;
     private javax.swing.JButton btnModificarDirector;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblApellido;
-    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblDirector;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNacionalidad;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblVolver;
     private javax.swing.JTable tblDirector;
     private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtFechaNacimiento;
     private javax.swing.JTextField txtNacionalidad;
     private javax.swing.JTextField txtNombre;

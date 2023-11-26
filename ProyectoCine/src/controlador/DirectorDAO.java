@@ -11,10 +11,11 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Director;
+import vista.FormularioDirector;
 
 /**
  *
- * @author Felipe
+ * @author Felipe & betza
  */
 public class DirectorDAO {
     
@@ -28,27 +29,25 @@ public class DirectorDAO {
     public boolean agregarDirector(Director d) throws SQLException{
         boolean resp = false;
         try {
-            String sql = "INSERT INTO director(id_director, nombre, appaterno, fecha_nacimiento, nacionalidad) VALUES(?,?,?,?,?)";
+            String sql = "INSERT INTO director(nombre, appaterno, fecha_nacimiento, nacionalidad) VALUES(?,?,?,?)";
             PreparedStatement pst = cone.prepareStatement(sql);
             
-            pst.setInt(1, d.getId_director());
-            pst.setString(2, d.getPnombre());
-            pst.setString(3, d.getAppaterno());
+            pst.setString(1, d.getPnombre());
+            pst.setString(2, d.getAppaterno());
             
             java.util.Date fecha_util = d.getFecha_nacimiento();
             java.sql.Date fecha_sql = new java.sql.Date(fecha_util.getTime());
-            pst.setDate(4, fecha_sql);
+            pst.setDate(3, fecha_sql);
             
-            pst.setString(5, d.getNacionalidad());
+            pst.setString(4, d.getNacionalidad());
             
             int lineas = pst.executeUpdate();
             if (lineas > 0) {
                 resp = true;
             }
-            
         } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
-        } finally{
+        }finally{
             cone.close();
         }
         return resp;
@@ -105,8 +104,9 @@ public class DirectorDAO {
         Director d = new Director();
         try {
             
-            String sql = "SELECT id_director, nombre, appaterno, fecha_nacimiento, nacionalidad FROM director WHERE id_director = ?";
+            String sql = "SELECT nombre, appaterno, fecha_nacimiento, nacionalidad FROM director WHERE id_director = ?";
             PreparedStatement pst = cone.prepareStatement(sql);
+
             pst.setInt(1, id);
             
             ResultSet rs = pst.executeQuery();
@@ -122,7 +122,7 @@ public class DirectorDAO {
             }
             
         } catch (Exception e) {
-            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("ERROR:" + e.getMessage());
         } finally {
             cone.close();
         }
@@ -156,7 +156,7 @@ public class DirectorDAO {
     public ResultSet listar_director() throws SQLException{
         ResultSet rs = null;
         try {
-            String sql = "SELECT * from director";
+            String sql = "select id_director, nombre, appaterno, fecha_nacimiento, nacionalidad from director";
             PreparedStatement pst = cone.prepareStatement(sql);
             rs = pst.executeQuery();
         } catch (Exception e) {
